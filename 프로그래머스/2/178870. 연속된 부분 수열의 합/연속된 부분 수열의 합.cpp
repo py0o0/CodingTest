@@ -1,37 +1,34 @@
 #include <string>
 #include <vector>
 #include <climits>
-#include <algorithm>
-#include <iostream>
 using namespace std;
-
 
 vector<int> solution(vector<int> sequence, int k) {
     vector<int> answer;
-    int min = INT_MAX;
-    int sum  = 0;
-    int s = 0;
-    int a =0;
-    int b = 0;
-    for(int i = 0;i<sequence.size();i++){
-        sum+=sequence[i];
-        if(sum>k){
-            while(sum>k)
-                sum-=sequence[s++];
-            
-            
+    int start = 0;
+    int sum = 0;
+    int si = 0, ei = 0;
+    int dis = INT_MAX;
+    for(int i=0;i<sequence.size();i++){
+        sum+= sequence[i];
+        if(sum == k && i-start < dis){
+            si = start;
+            ei = i;
+            dis = ei - si;
         }
-        if(sum==k){
-            int len = i-s;
-            if(min>len){
-                min = len;
-                a = i;
-                b = s;
+        else if(sum >k){
+            while(sum > k){
+                sum -= sequence[start];
+                start++;
+            }
+            if(sum == k && i-start < dis){
+            si = start;
+            ei = i;
+            dis = ei - si;
             }
         }
     }
-            answer.push_back(b);
-            answer.push_back(a);
-
+    answer.push_back(si);
+    answer.push_back(ei);
     return answer;
 }
