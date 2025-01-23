@@ -1,50 +1,42 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.*;
+import java.io.*;
 
-public class Main {
+    class Main {
 
-    public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st;
-        st = new StringTokenizer(br.readLine());
-        int N = Integer.parseInt(st.nextToken());
-        long[] v = new long[N];
+        public static void main(String[] args) throws IOException{
+            BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+            StringTokenizer st;
 
-        st = new StringTokenizer(br.readLine());
-        for(int i = 0; i < N; i++)
-            v[i] = Long.parseLong(st.nextToken());
+            st = new StringTokenizer(br.readLine());
+            int n = Integer.parseInt(st.nextToken());
 
-        int start = 0;
-        int end = N - 1;
-        Long near0 = Long.MAX_VALUE;
+            long[] arr = new long[n];
+            st = new StringTokenizer(br.readLine());
+            for(int i = 0; i<n;i++)
+                arr[i] = Long.parseLong(st.nextToken());
 
-        long v1 = 0,v2 = 0;
-        while(start < end) {
-            long sum = v[start] + v[end];
+            long x = arr[0];
+            long y = arr[arr.length-1];
+            long min = abs(x + y);
 
-            if(Math.abs(sum) < Math.abs(near0)) {
-                near0 = sum;
-                v1 = v[start];
-                v2 = v[end];
+            int start = 0; int end = arr.length-1;
+            while(start < end){
+                long val = arr[start] + arr[end];
+
+                if(abs(val) < min){
+                    min = abs(val);
+                    x = arr[start];
+                    y = arr[end];
+                }
+                if(val < 0) start++;
+                else end--;
             }
 
-            if(sum < 0)
-                start++;
-            else if(sum > 0)
-                end--;
-            else if(sum == 0){
-                v1 = v[start];
-                v2 = v[end];
-                break;
-            }
-
+            System.out.println(x + " " + y);
         }
 
-        System.out.print(v1 + " " + v2);
+        public static long abs(long n){
+            return n > 0 ? n : -n;
+        }
 
     }
-
-
-}
