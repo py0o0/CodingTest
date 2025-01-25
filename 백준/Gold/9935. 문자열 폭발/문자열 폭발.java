@@ -1,46 +1,42 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.*;
+import java.io.*;
 
-public class Main {
+    class Main {
 
+        public static void main(String[] args) throws IOException{
+            BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+            StringTokenizer st;
 
-    public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st;
+            String str1 = br.readLine();
+            String str2 = br.readLine();
 
-        String s = br.readLine();
-        String ch = br.readLine();
+            Stack<Character> stk = new Stack<>();
 
-        Stack<Character> stack = new Stack<>();
+            for(int i =0; i< str1.length(); i++){
+                stk.push(str1.charAt(i));
 
-        for(int i=0;i<s.length();i++){
-            stack.push(s.charAt(i));
-            if(stack.size() >= ch.length()){
-                int cnt=0;
-                for(int j = 0; j < ch.length(); j++){
-                    if(ch.charAt(j)==stack.get(stack.size() -(ch.length()-j)))
-                        cnt++;
-                    if(cnt == ch.length()){
-                        while(cnt > 0){
-                            cnt--;
-                            stack.pop();
-                        }
+                if(stk.size() >= str2.length() && stk.peek().equals(str2.charAt(str2.length() - 1))){
+                    StringBuilder str3 = new StringBuilder();
+                    for(int j = 0; j<str2.length(); j++){
+                        str3.append(stk.pop());
                     }
+                    str3 = str3.reverse();
+                    if(!str2.equals(str3.toString())){
+                        for(int j = 0; j<str3.length(); j++)
+                            stk.push(str3.charAt(j));
+                    }
+
                 }
             }
+            StringBuilder an = new StringBuilder();
+            while(!stk.isEmpty())
+                an.append(stk.pop());
+            an = an.reverse();
+            if(an.length() == 0)
+                System.out.println("FRULA");
+            else
+                System.out.println(an);
         }
-        StringBuilder sb = new StringBuilder();
 
-        for(int i=0; i< stack.size(); i++)
-            sb.append(stack.get(i));
-
-        if(sb.toString().equals(""))
-            System.out.println("FRULA");
-        else
-            System.out.println(sb);
 
     }
-
-}
