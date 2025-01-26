@@ -1,71 +1,67 @@
-import java.util.ArrayList;
-import java.util.Scanner;
-import java.util.Queue;
-import java.util.LinkedList;
+import java.util.*;
+import java.io.*;
 
-public class Main {
+    class Main {
 
+        public static void main(String[] args) throws IOException {
+            BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+            StringTokenizer st;
 
-    static int[] dx = {1,-1,0,0};
-    static int[] dy = {0,0,1,-1};
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int n = sc.nextInt();
-        int m = sc.nextInt();
-        int [][]an = new int[n][m];
-        int [][]v = new int[n][m];
-        Queue<xy> q = new LinkedList<>();
-        for (int i = 0; i < n; i++)
-            for (int j = 0; j < m; j++) {
-                v[i][j] = sc.nextInt();
-                an[i][j] = Integer.MAX_VALUE;
-                if(v[i][j] == 2) {
-                    q.add(new xy(i, j, 0));
-                    an[i][j] = 0;
+            int r,c;
+            st = new StringTokenizer(br.readLine());
+            r = Integer.parseInt(st.nextToken());
+            c = Integer.parseInt(st.nextToken());
+            int[][] map = new int[r][c];
+            int[][] visit = new int[r][c];
+            int[][] an = new int[r][c];
+            int[] dx = {1,-1,0,0};
+            int[] dy = {0,0,-1,1};
+            int sx =0,sy =0;
+            for(int i = 0; i<r;i++){
+                st = new StringTokenizer(br.readLine());
+                for(int j = 0; j<c;j++){
+                    map[i][j] = Integer.parseInt(st.nextToken());
+                    an[i][j] = -1;
+                    if(map[i][j] == 2) {
+                        sx = i; sy = j;
+                    }
                 }
             }
+            Queue<xy> q = new LinkedList<>();
+            visit[sx][sy]= 1;
+            an[sx][sy] = 0;
+            q.add(new xy(sx,sy,0));
+            while(!q.isEmpty()){
+                xy x = q.poll();
+                for(int i = 0; i<4;i++){
+                    int nx = x.x+dx[i];
+                    int ny = x.y+dy[i];
+                    if(nx<0 || ny<0 || nx>=r || ny>=c) continue;
+                    if(visit[nx][ny]==1) continue;
+                    visit[nx][ny]=1;
+                    if(map[nx][ny]==0) continue;
 
-        while(q.size() != 0){
-            xy d = q.poll();
-            int x = d.x;
-            int y = d.y;
-            int sum = d.n;
-            for(int k=0;k<4;k++){
-                int nx = x + dx[k];
-                int ny = y + dy[k];
-                if(nx<0 || ny<0 || nx>=n || ny>=m) continue;
-                if(v[nx][ny] == 0) continue;
-                int nsum = sum+1;
-                if(nsum>=an[nx][ny]) continue;
-                an[nx][ny] = nsum;
-                q.add(new xy(nx, ny, nsum));
+                    an[nx][ny]=x.cnt + 1;
+                    q.add(new xy(nx,ny,x.cnt + 1));
+                }
             }
-        }
-        for(int i=0;i<n;i++){
-            for(int j=0;j<m;j++){
-                if(an[i][j] == Integer.MAX_VALUE){
-                    if(v[i][j] == 0)
-                        an[i][j] = 0;
+            for(int i = 0; i<r;i++){
+                for(int j = 0; j<c;j++) {
+                    if (map[i][j] == 0 && an[i][j] == -1)
+                        System.out.print("0 ");
                     else
-                        an[i][j] = -1;
+                        System.out.print(an[i][j] + " ");
                 }
-                System.out.print(an[i][j]+" ");
+                System.out.println();
             }
-            System.out.println();
         }
-
-
-    }
-    public static class xy {
-        int x;
-        int y;
-        int n;
-        public xy(int x, int y, int n) {
-            this.x = x;
-            this.y = y;
-            this.n = n;
+        static class xy{
+            int x, y, cnt;
+            xy(int x, int y, int cnt){
+                this.x = x;
+                this.y = y;
+                this.cnt = cnt;
+            }
         }
+        
     }
-
-
-}
