@@ -1,12 +1,9 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.*;
 
-public class Main {
+class Main{
 
-    static xy[] standards;
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st;
 
@@ -14,47 +11,42 @@ public class Main {
         int n = Integer.parseInt(st.nextToken());
         int m = Integer.parseInt(st.nextToken());
 
-        standards = new xy[n];
-
-        for(int i = 0; i<n; i++){
-            standards[i] = new xy();
+        xy[] v = new xy[n];
+        for(int i=0; i<n; i++){
             st = new StringTokenizer(br.readLine());
-            standards[i].s = st.nextToken();
-            standards[i].x = Integer.parseInt(st.nextToken());
+            v[i] = new xy();
+            v[i].name = st.nextToken();
+            v[i].x = Integer.parseInt(st.nextToken());
         }
 
+        Arrays.sort(v,(a,b)->a.x-b.x);
 
-        for(int i = 0; i<m; i++){
-            int power = Integer.parseInt(br.readLine());
+        StringBuilder sb = new StringBuilder();
+        for(int i = 0; i < m; i++){
+            int x = Integer.parseInt(br.readLine());
 
-            int cur = seekmid(power, n);
+            int start = 0;
+            int end = n;
 
-            System.out.println(standards[cur].s);
+            while(start<end){
+                int mid = (start+end)/2;
 
+                if(v[mid].x>=x)
+                    end = mid;
+                else start = mid + 1;
+            }
+            sb.append(v[start].name + "\n");
 
         }
+        System.out.println(sb.toString());
+
 
 
     }
-    public static int seekmid(int power, int n){
-        int start = 0;
-        int end = n-1;
 
-        while(start <= end){
-            int mid = (start + end)/2;
-            if(power <= standards[mid].x)
-                end = mid - 1;
-            else if(power > standards[mid].x)
-                start = mid + 1;
-
-        }
-        return start;
-    }
-
-    public static class xy{
-        String s;
+    static class xy{
+        String name;
         int x;
     }
-
 
 }
