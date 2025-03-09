@@ -1,51 +1,39 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.*;
 
-public class Main {
+class Main{
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st;
 
-       st = new StringTokenizer(br.readLine());
-       int n = Integer.parseInt(st.nextToken());
+        st = new StringTokenizer(br.readLine());
+        int n = Integer.parseInt(st.nextToken());
+        String[] arr = new String[n];
 
-       String[] str = new String[n];
+        for(int i = 0; i < n; i++)
+            arr[i] = br.readLine();
 
-       for (int i = 0; i < n; i++) {
-           st = new StringTokenizer(br.readLine());
-           str[i] = st.nextToken();
-       }
+        int x = 0;
+        int y = 0;
+        int max = -1;
+        for(int i = 0; i < n; i++){
+            for(int j = i+1; j < n; j++){
+                int size = Math.min(arr[i].length(), arr[j].length());
+                int cnt = 0;
 
-       int max = 0;
-       String[] an = new String[2];
-       for (int i = 0; i < n; i++) {
-           for (int j = i + 1; j < n; j++) {
-               if(str[i] == str[j])
-                   continue;
-
-               int size = Math.min(str[i].length(), str[j].length());
-               int cnt = 0;
-               for(int k = 0; k < size; k++){
-                   if(str[i].charAt(k) != str[j].charAt(k))
-                       break;
-                   cnt++;
-               }
-               if(max < cnt){
-                   max = cnt;
-                   an[0] = str[i];
-                   an[1] = str[j];
-               }
-
-           }
-       }
-
-       System.out.println(an[0]);
-       System.out.println(an[1]);
+                for(int k = 0; k < size; k++){
+                    if(arr[i].charAt(k) != arr[j].charAt(k)) break;
+                    cnt++;
+                }
+                if(cnt > max){
+                    max = cnt;
+                    x = i; y = j;
+                }
+            }
+        }
+        System.out.println(arr[x]);
+        System.out.println(arr[y]);
     }
-
-
 
 }
