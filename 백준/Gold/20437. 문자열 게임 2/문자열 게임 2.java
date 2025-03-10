@@ -1,47 +1,44 @@
-import java.util.Scanner;
-import java.util.ArrayList;
+import java.io.*;
+import java.util.*;
 
-public class Main {
+class Main{
 
+    public static void main(String[] args) throws IOException{
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st;
 
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
+        st = new StringTokenizer(br.readLine());
+        int t = Integer.parseInt(st.nextToken());
 
-        int t = sc.nextInt();
-        sc.nextLine();
-        while(t-- > 0){
-            String input = sc.nextLine();
-            int k = sc.nextInt();
-            sc.nextLine();
+        while(t-->0){
+            String s = br.readLine();
+            st = new StringTokenizer(br.readLine());
+            int n = Integer.parseInt(st.nextToken());
 
-            ArrayList<Integer>[] arr = new ArrayList[26];
+            ArrayList<Integer>[] map = new ArrayList[26];
 
             for(int i=0;i<26;i++)
-                arr[i] = new ArrayList<>();
+                map[i] = new ArrayList<>();
 
-            for(int i=0;i<input.length();i++)
-                arr[input.charAt(i)-'a'].add(i);
+            for(int i = 0; i < s.length(); i++)
+                map[s.charAt(i) - 'a'].add(i);
 
             int min = Integer.MAX_VALUE;
             int max = Integer.MIN_VALUE;
+            for(int i = 0; i < 26; i++){
+                if(map[i].size() < n) continue;
 
-            for(int i=0;i<26;i++){
-                if(arr[i].size() >= k){
-                    for(int j=k-1;j<arr[i].size();j++){
-                        min = Math.min(min, arr[i].get(j) - arr[i].get(j-k+1) + 1);
-                        max = Math.max(max, arr[i].get(j) - arr[i].get(j-k+1) + 1);
-                    }
+                for(int j = n - 1; j < map[i].size(); j++){
+                    min = Math.min(min, map[i].get(j) - map[i].get(j-n+1) + 1);
+                    max = Math.max(max, map[i].get(j) - map[i].get(j-n+1) + 1);
                 }
-            }
-            if(min == Integer.MAX_VALUE){
-                System.out.println(-1);
-                continue;
+
             }
 
-            System.out.println(min);
-            System.out.println(max);
-
+            if(min == Integer.MAX_VALUE) System.out.println(-1);
+            else System.out.println(min + " " + max);
         }
     }
+
 
 }
