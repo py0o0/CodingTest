@@ -1,44 +1,41 @@
-import java.util.ArrayList;
-import java.util.Scanner;
-import java.util.Queue;
-import java.util.LinkedList;
+import java.io.*;
+import java.util.*;
 
-public class Main {
+class Main{
 
+    public static void main(String[] args) throws IOException{
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st;
 
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int n = sc.nextInt();
-        int s = sc.nextInt();
-        int []v = new int[n];
-        for (int i = 0; i < n; i++)
-            v[i] = sc.nextInt();
+        st = new StringTokenizer(br.readLine());
+        int n = Integer.parseInt(st.nextToken());
+        int k = Integer.parseInt(st.nextToken());
 
-        int sum = 0;
+        int[] v = new int[n];
+        st = new StringTokenizer(br.readLine());
+        for(int i = 0; i < n; i++)
+            v[i] = Integer.parseInt(st.nextToken());
+
         int start = 0;
-        int an = Integer.MAX_VALUE;
-        for(int i=0;i<n;i++){
+        int sum = v[0];
+        int min = Integer.MAX_VALUE;
+        if(sum >= k) min = 1;
+        for(int i = 1; i < n; i++){
             sum += v[i];
-            if(sum == s)
-                an = Math.min(i - start + 1, an);
-            else if(sum > s){
-                while(start<=i){
-                    an = Math.min(i - start + 1, an);
+
+            if(sum >= k){
+                min = Math.min(min, i - start + 1);
+                while(sum >= k){
                     sum -= v[start++];
-                    if(sum == s){
-                        an = Math.min(i - start + 1, an);
-                    }
-                    else if(sum < s)
-                        break;
+                    if(sum >= k) min = Math.min(min, i - start + 1);
                 }
             }
-        }
-        if(an == Integer.MAX_VALUE)
-            System.out.println(0);
-        else
-        System.out.println(an);
 
+        }
+        if(min == Integer.MAX_VALUE) min = 0;
+        System.out.println(min);
     }
+
 
 
 }
