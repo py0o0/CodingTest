@@ -1,41 +1,33 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.*;
 
-public class Main {
+class Main{
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st;
 
-
-        int t = Integer.parseInt(br.readLine());
-
-        while (t-- > 0) {
-            int n = Integer.parseInt(br.readLine());
-            int[] coins = new int[n];
-
+        st = new StringTokenizer(br.readLine());
+        int t = Integer.parseInt(st.nextToken());
+        while(t-->0){
             st = new StringTokenizer(br.readLine());
-
+            int n = Integer.parseInt(st.nextToken());
+            int[] v = new int[n];
+            st = new StringTokenizer(br.readLine());
             for(int i = 0; i < n; i++)
-                coins[i] = Integer.parseInt(st.nextToken());
+                v[i] = Integer.parseInt(st.nextToken());
+            st = new StringTokenizer(br.readLine());
+            int target = Integer.parseInt(st.nextToken());
 
-            int k = Integer.parseInt(br.readLine());
-
-            int[] dp = new int[k + 1];
-            
+            int[] dp = new int[target+1];
             dp[0] = 1;
-            
-            for(int coin : coins){
-                for(int j = coin; j <= k; j++)
-                    dp[j] += dp[j - coin];
+            for(int i = 0; i < n; i++){
+                for(int j = v[i]; j <= target; j++){
+                    dp[j] += dp[j - v[i]];
+                }
             }
-            System.out.println(dp[k]);
+            System.out.println(dp[target]);
         }
-
     }
-
-
 
 }
