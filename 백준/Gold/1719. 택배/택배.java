@@ -1,109 +1,83 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.*;
 
-public class Main {
-
+class Main{
 
     static ArrayList<Road>[] roads;
-    static int[][] dist;
-    static int[][] an;
+    static xy[] dp;
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st;
 
         st = new StringTokenizer(br.readLine());
-
         int n = Integer.parseInt(st.nextToken());
         int m = Integer.parseInt(st.nextToken());
-
         roads = new ArrayList[n + 1];
-        for(int i = 0; i<=n;i++)
-            roads[i] =  new ArrayList<>();
+        dp = new xy[n + 1];
 
-        dist = new int[n + 1][n + 1];
-        an = new int[n + 1][n + 1];
+        for(int i = 0; i <= n; i++){
+            roads[i] = new ArrayList<>();
+            dp[i] = new xy();
 
-        for(int i = 1; i<=n;i++)
-            Arrays.fill(dist[i], Integer.MAX_VALUE);
+            dp[i].x = 0; dp[i].t = Integer.MAX_VALUE;
+        }
 
-        for(int i = 0; i<m; i++){
-
+        for(int i = 0; i < m; i++){
             st = new StringTokenizer(br.readLine());
             int s = Integer.parseInt(st.nextToken());
             int e = Integer.parseInt(st.nextToken());
             int t = Integer.parseInt(st.nextToken());
 
-            roads[s].add(new Road(e, t));
-            roads[e].add(new Road(s, t));
+            roads[s].add(new Road(e,t));
+            roads[e].add(new Road(s,t));
         }
 
-        for(int i= 1; i<= n; i++)
+        StringBuilder str = new StringBuilder();
+        for(int i =  1; i <= n; i++){
             dijkstra(i);
-
-        for(int i = 1; i <= n; i++){
             for(int j = 1; j <= n; j++){
                 if(i == j)
-                    System.out.print("- ");
-                else
-                    System.out.print(an[i][j] + " ");
+                    str.append("- ");
+                else str.append(dp[j].x).append(" ");
+
+                dp[j].x = 0;
+                dp[j].t = Integer.MAX_VALUE;
             }
-            System.out.println();
+            str.append("\n");
         }
-
-
-
+        System.out.println(str);
     }
 
-    static void dijkstra(int s){
-        dist[s][s] = 0;
-
-        PriorityQueue<xy> pq = new PriorityQueue<>(Comparator.comparingInt(o -> o.t));
-        pq.add(new xy(s, 0, 0));
+    static void dijkstra(int i){
+        dp[i].t = 0;
+        PriorityQueue<Road> pq = new PriorityQueue<>((a,b)->a.t-b.t);
+        pq.add(new Road(i,0));
 
         while(!pq.isEmpty()){
-            xy x = pq.poll();
+            Road x = pq.poll();
+            for(Road road : roads[x.next]){
 
-            for(Road road : roads[x.x]){
+                if(dp[road.next].t > dp[x.next].t + road.t){
+                    dp[road.next].t = dp[x.next].t + road.t;
+                    if(x.next == i) dp[road.next].x = road.next;
+                    else dp[road.next].x = dp[x.next].x;
 
-                if(dist[s][road.next] > dist[s][x.x] + road.t){
-                    dist[s][road.next] = dist[s][x.x] + road.t;
-
-                    if(x.first_move == 0) {
-                        an[s][road.next] = road.next;
-                        pq.add(new xy(road.next, dist[s][road.next], road.next));
-                    }
-                    else{
-                        an[s][road.next] = x.first_move ;
-                        pq.add(new xy(road.next, dist[s][road.next], x.first_move));
-                    }
+                    pq.add(new Road(road.next,dp[x.next].t + road.t));
                 }
             }
-
         }
-
 
     }
 
     static class xy{
-        int x;
-        int t;
-        int first_move;
-        public xy(int x, int t, int first_move){
-            this.x = x;
-            this.t = t;
-            this.first_move = first_move;
-        }
+        int x, t;
     }
 
     static class Road{
-        int next;
-        int t;
-        Road(int next, int t){
-            this.next = next;
-            this.t = t;
+        int next,t;
+        Road(int next,int t){
+            this.next=next;
+            this.t=t;
         }
     }
-
 }
