@@ -1,34 +1,32 @@
-import java.util.*;
 import java.io.*;
+import java.util.*;
 
-    class Main {
+class Main{
 
-        public static void main(String[] args) throws IOException {
-            BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-            StringTokenizer st;
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st;
 
-            st = new StringTokenizer(br.readLine());
-            int n = Integer.parseInt(st.nextToken());
-            int[] v = new int[n];
-            int[] an = new int[n];
-            st = new StringTokenizer(br.readLine());
-            for(int i =0; i<n; i++)
-                v[i] = Integer.parseInt(st.nextToken());
+        st = new StringTokenizer(br.readLine());
+        int n = Integer.parseInt(st.nextToken());
 
-            for(int i = 0; i<n; i++){
-                int x = v[i];
-                int j = -1;
-                while(x >= 0){
-                    x--; j++;
-                    while(an[j] != 0) j++;
+        int[] dp = new int[n];
+
+        st = new StringTokenizer(br.readLine());
+        for(int i = 0; i < n; i++){
+            int x = Integer.parseInt(st.nextToken());
+            int cnt = 0;
+            for(int j = 0; j < n; j++){
+                if(dp[j] != 0) continue;
+                if(cnt == x) {
+                    dp[j] = i + 1; break;
                 }
-                an[j] = i + 1;
-            }
-            for(int i = 0; i<n; i++){
-                System.out.print(an[i] + " ");
+                if(dp[j] == 0) cnt++;
             }
         }
-
-
-
+        for(int i = 0; i < n; i++)
+            System.out.print(dp[i] + " ");
     }
+
+
+}
