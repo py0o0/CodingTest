@@ -1,9 +1,7 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.*;
 
-public class Main {
+class Main{
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -14,25 +12,29 @@ public class Main {
         int k = Integer.parseInt(st.nextToken());
 
         int[] v = new int[n];
-        st  = new StringTokenizer(br.readLine());
-        for(int i = 0; i < n; i++)
+
+        st = new StringTokenizer(br.readLine());
+        for (int i = 0; i < n; i++)
             v[i] = Integer.parseInt(st.nextToken());
 
-        int[] m = new int[100001];
-        int max = 0;
+        int[] map = new int[100001];
         int start = 0;
-        for(int i = 0; i< n; i++){
-            m[v[i]]++;
-            if(m[v[i]] > k){
-                while(m[v[i]] > k){
-                    m[v[start]]--;
-                    start++;
+        int cnt = 0;
+        int an = 0;
+        for(int i = 0; i < n; i++){
+            map[v[i]]++;
+
+            if(map[v[i]] > k){
+                while(map[v[i]] > k){
+                    map[v[start++]]--;
+                    cnt--;
                 }
             }
-            max = Math.max(max, i - start + 1);
+            cnt++;
+            an = Math.max(an, cnt);
         }
-        System.out.println(max);
+        System.out.println(an);
     }
-    
+
 
 }
