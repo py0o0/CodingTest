@@ -16,26 +16,21 @@ class Main{
         for(int i = 0; i < n; i++)
             v[i] = Integer.parseInt(st.nextToken());
 
+        int sum = 0;
         int start = 0;
-        int sum = v[0];
-        int min = Integer.MAX_VALUE;
-        if(sum >= k) min = 1;
-        for(int i = 1; i < n; i++){
+        int an = Integer.MAX_VALUE;
+        for(int i = 0; i < n; i++){
             sum += v[i];
-
             if(sum >= k){
-                min = Math.min(min, i - start + 1);
                 while(sum >= k){
                     sum -= v[start++];
-                    if(sum >= k) min = Math.min(min, i - start + 1);
                 }
+                an = Math.min(an, i - start + 2);
             }
-
         }
-        if(min == Integer.MAX_VALUE) min = 0;
-        System.out.println(min);
+        if(an == Integer.MAX_VALUE) an = 0;
+        System.out.println(an);
     }
-
 
 
 }
