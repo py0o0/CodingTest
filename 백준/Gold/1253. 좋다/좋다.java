@@ -1,45 +1,37 @@
-import java.io.*;
 import java.util.*;
+import java.io.*;
 
-class Main{
-
-    public static void main(String[] args) throws IOException{
+public class Main {
+    public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st;
 
+        int n = Integer.parseInt(br.readLine());
         st = new StringTokenizer(br.readLine());
-        int n = Integer.parseInt(st.nextToken());
-        long[] v = new long[n];
-        st = new StringTokenizer(br.readLine());
-        for(int i = 0; i < n; i++)
-            v[i] = Long.parseLong(st.nextToken());
+
+        long[] v = new long[n]; 
+        for (int i = 0; i < n; i++) v[i] = Long.parseLong(st.nextToken());
 
         Arrays.sort(v);
 
-        int cnt = 0;
-        for(int i = 0; i < n; i++){
-
+        int an = 0;
+        for (int i = 0; i < n; i++) { 
             int start = 0;
-            if(start == i) start++;
-            
             int end = n - 1;
-            if(end == i) end--;
-            while(start < end){
-                if(v[i] == v[start] + v[end]){
-                    cnt++; break;
+
+            while (start < end) {
+                if (start == i) { start++; continue; }
+                if (end == i) { end--; continue; }
+
+                long val = v[start] + v[end]; 
+                if (val == v[i]) {
+                    an++;
+                    break;
                 }
-                else if(v[i] > v[start] + v[end]) {
-                    start++; if(start ==i) start++;
-                }
-                else if(v[i] < v[start] + v[end]){
-                    end--; if(end == i) end--;
-                }
+                if (val < v[i]) start++;
+                else end--;
             }
         }
-        System.out.println(cnt);
-
-
-
+        System.out.println(an);
     }
-
 }
