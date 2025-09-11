@@ -1,33 +1,30 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.*;
+import java.io.*;
 
-public class Main {
+public class Main{
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st;
 
         st = new StringTokenizer(br.readLine());
         int n = Integer.parseInt(st.nextToken());
-        int k = Integer.parseInt(st.nextToken());
-
-        long[]v = new long[n];
-
-        for(int i = 0; i < n; i++)
-            v[i] = Long.parseLong(br.readLine());
-
+        int m = Integer.parseInt(st.nextToken());
+        
+        int[] v = new int[n];
+        for(int i = 0; i < n; i++){
+            v[i] = Integer.parseInt(br.readLine());
+        }
         Arrays.sort(v);
 
-        long start = 1;
-        long end = v[n-1];
+        int start = 0;
+        int end = v[n - 1];
 
         while(start < end){
-            long mid = (start + end)/2;
+            int mid = (start + end) / 2;
 
-            long x = v[0];
             int cnt = 1;
+            int x = v[0];
             for(int i = 1; i < n; i++){
                 if(x + mid < v[i]){
                     cnt++;
@@ -35,13 +32,11 @@ public class Main {
                 }
             }
 
-            if(cnt < k)
+            if(cnt < m){
                 end = mid;
-            else
-                start = mid + 1;
+            }else start = mid + 1;
         }
         System.out.println(start);
 
     }
-    
 }
