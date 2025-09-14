@@ -1,65 +1,51 @@
-        import javax.lang.model.type.ArrayType;
-        import java.io.BufferedReader;
-        import java.io.IOException;
-        import java.io.InputStreamReader;
-        import java.util.*;
+import java.util.*;
+import java.io.*;
 
-        public class Main {
+public class Main{
 
-            public static void main(String[] args) throws IOException {
-                BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-                StringTokenizer st;
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st;
 
-                int n = Integer.parseInt(br.readLine());
-                long[] v = new long[n];
+        int n = Integer.parseInt(br.readLine());
+        long[] v = new long[n];
+        st = new StringTokenizer(br.readLine());
+        for(int i = 0; i < n; i++) v[i] = Long.parseLong(st.nextToken());
+        Arrays.sort(v);
 
-                st = new StringTokenizer(br.readLine());
-                for(int i = 0 ; i < n ; i++)
-                    v[i] = Integer.parseInt(st.nextToken());
+        long[] an = new long[3];
+        an[0] = v[0]; an[1] = v[1]; an[2] = v[2];
 
-                Arrays.sort(v);
+        long dis = Math.abs(an[0] + an[1] + an[2]);
 
-                int[] an = new int[3];
+        for(int i = 1; i < n-1; i++){
+            int start = 0;
+            int end = n - 1;
 
-                long dis = x(v[0] + v[1] + v[2]);
-                an[0] = (int)v[0]; an[1] = (int)v[1]; an[2] = (int)v[2];
-
-                for(int i = 1; i < n - 1; i++){
-                    int start = 0;
-                    int end = n-1;
-                    while(start < end){
-                        if(start == i){
-                            start++; continue;
-                        }
-                        if(end == i){
-                            end--; continue;
-                        }
-                        long val = x(v[i] + v[start] + v[end]);
-                        if(dis > val){
-                            dis = val;
-                            an[0] = (int)v[start];
-                            an[1] = (int)v[i];
-                            an[2] = (int)v[end];
-                        }
-                        if(v[i] + v[start] + v[end] < 0)
-                            start++;
-                        else end--;
-                    }
+            while(start < end){
+                if(start == i){
+                    start++; continue;
                 }
-                Arrays.sort(an);
-                for(int i = 0 ; i < 3 ; i++)
-                    System.out.print(an[i] + " ");
+                if(end == i){
+                    end--; continue;
+                }
 
+                long x = v[start] + v[end] + v[i];
+                if(dis > Math.abs(x)){
+                    dis = Math.abs(x);
+                    an[0] = v[start]; an[1] = v[end]; an[2] = v[i];
+                }
 
-
+                if(x < 0)
+                    start++;
+                else
+                    end--;
             }
-            static long x(long val){
-                return val < 0 ? -val : val;
-            }
-
-
-
-
         }
+        Arrays.sort(an);
+        for(int i = 0; i < 3; i++)
+            System.out.print(an[i] + " ");
 
 
+    }
+}
