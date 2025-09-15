@@ -1,41 +1,34 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.*;
+import java.io.*;
 
-public class Main {
+public class Main{
 
-    static int an = 0;
+    static String str;
+    static String input;
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st;
 
-        String s1 = br.readLine();
-        String s2 = br.readLine();
-
-
-        dfs(s1,s2);
-        System.out.println(an);
+        input = br.readLine();
+        str = br.readLine();
+        if(dfs(str)) System.out.println(1);
+        else System.out.println(0);
     }
-    public static void dfs(String s1, String s2) {
-        if(s1.length() == s2.length()){
-            if(s1.equals(s2))
-                an = 1;
-            return;
+    static boolean dfs(String str) {
+        if(input.length() == str.length()){
+            return str.equals(input);
         }
 
-        if(s2.charAt(0) == 'B'){
-            String s = s2.substring(1);
+        if(str.charAt(str.length() - 1) == 'A'){
+           String s = str.substring(0, str.length() - 1);
+           if(dfs(s)) return true;
+        }
+
+        if(str.charAt(0) == 'B'){
+            String s = str.substring(1);
             s = new StringBuilder(s).reverse().toString();
-            dfs(s1,s);
+            if(dfs(s)) return true;
         }
-
-        if(s2.charAt(s2.length() - 1) == 'A'){
-            String s = s2.substring(0, s2.length() - 1);
-            dfs(s1,s);
-        }
-
-
+        return false;
     }
-
 }
