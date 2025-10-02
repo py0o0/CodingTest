@@ -1,10 +1,10 @@
 # [level 3] [PCCP 기출문제] 4번 / 수레 움직이기 - 250134 
 
-[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/250134) 
+[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/250134?language=java) 
 
 ### 성능 요약
 
-메모리: 4.22 MB, 시간: 2.89 ms
+메모리: 80.3 MB, 시간: 9.45 ms
 
 ### 구분
 
@@ -16,7 +16,7 @@
 
 ### 제출 일자
 
-2024년 10월 02일 20:18:43
+2025년 10월 02일 18:51:10
 
 ### 문제 설명
 
@@ -68,11 +68,12 @@
 <h5>제한사항</h5>
 
 <ul>
-<li><p>1 ≤ <code>maze</code>의 길이 (= 세로 길이) ≤ 4</p>
+<li>1 ≤ <code>maze</code>의 길이 (= 세로 길이) ≤ 4
 
 <ul>
 <li>1 ≤ <code>maze[i]</code>의 길이 (= 가로 길이) ≤ 4</li>
 <li><code>maze[i][j]</code>는 0,1,2,3,4,5 중 하나의 값을 갖습니다.</li>
+</ul></li>
 </ul>
 <table class="table">
         <thead><tr>
@@ -108,7 +109,6 @@
       </table>
 <ul>
 <li>빨간 수레의 시작 칸, 빨간 수레의 도착 칸, 파란 수레의 시작 칸, 파란 수레의 도착 칸은 퍼즐판에 1개씩 존재합니다.</li>
-</ul></li>
 </ul>
 
 <hr>
