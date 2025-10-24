@@ -22,25 +22,29 @@ public class Main {
             }
         }
 
-        int an = dfs(0, 1);
+        int an = tsp(0, 1);
         System.out.println(an);
     }
 
-    static int dfs(int x, int visit){
+    static int tsp(int cur, int visit){
         if(visit == (1 << n) - 1){
-            if(map[x][0] == 0) return Integer.MAX_VALUE;
-            return map[x][0];
+            if(map[cur][0] == 0)
+                return Integer.MAX_VALUE;
+            return map[cur][0];
         }
 
-        if(dp[x][visit] != -1) return dp[x][visit];
+        if(dp[cur][visit] != -1) return dp[cur][visit];
 
         int minCost = Integer.MAX_VALUE;
-        for(int i = 0; i < n; i++){
-            if((visit & (1 << i)) != 0 || map[x][i] == 0) continue;
-            int cost = dfs(i, visit | (1 << i));
+        for(int next = 0; next < n; next++) {
+            if((visit & (1 << next)) != 0 || map[cur][next] == 0) continue;
+
+            int cost = tsp(next, visit | (1 << next));
             if(cost == Integer.MAX_VALUE) continue;
-            minCost = Math.min(minCost, cost + map[x][i]);
+            minCost = Math.min(minCost, cost + map[cur][next]);
         }
-        return dp[x][visit] = minCost;
+        return dp[cur][visit] = minCost;
     }
+
+
 }
