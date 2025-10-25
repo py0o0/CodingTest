@@ -9,17 +9,20 @@ class Solution {
             road[i][0] = new ArrayList<>();
             road[i][1] = new ArrayList<>();
         }
-        for(int r[] : roads){
-            road[r[0]][0].add(new Road(r[1],r[2]));
-            road[r[1]][1].add(new Road(r[0],r[2]));
+        
+        for(int[] r : roads){
+            road[r[0]][0].add(new Road(r[1], r[2]));
+            road[r[1]][1].add(new Road(r[0], r[2]));
         }
         
-        for(int t : traps)
+        for(int t : traps){
             trap.add(t);
+        }
         
         int[][] dp = new int[n + 1][1 << trap.size()];
-        for(int i = 0; i <= n; i++)
+        for(int i = 0; i <= n; i++){
             Arrays.fill(dp[i], Integer.MAX_VALUE);
+        }
         
         PriorityQueue<xy> pq = new PriorityQueue<>((a,b)->a.dis-b.dis);
         pq.add(new xy(start, 0, 0));
@@ -31,13 +34,12 @@ class Solution {
                 return x.dis;
             }
             
-            int trapState = x.visit;
+            int state = x.state;
             int curTrap = 0;
-            
             for(int i = 0; i < trap.size(); i++){
                 if(trap.get(i) == x.x){
-                    trapState ^= (1 << i);
-                    curTrap = (trapState >> i) & 1;
+                    state ^= (1 << i);
+                    curTrap = (state >> i) & 1;
                     break;
                 }
             }
@@ -46,26 +48,27 @@ class Solution {
                 int nextTrap = 0;
                 for(int i = 0; i < trap.size(); i++){
                     if(next == trap.get(i)){
-                        nextTrap = (trapState >> i) & 1;
+                        nextTrap = (state >> i) & 1;
                         break;
                     }
                 }
+                int index = nextTrap ^ curTrap;
                 
-                int curRoad = curTrap ^ nextTrap;
-                for(Road r : road[x.x][curRoad]){
-                    if(r.x != next) continue;
-                    if(dp[r.x][trapState] > x.dis + r.dis){
-                        dp[r.x][trapState] = x.dis + r.dis;
-                        pq.add(new xy(r.x, x.dis + r.dis, trapState));
+                for(Road r : road[x.x][index]){
+                    if(next != r.x) continue;
+                    if(dp[r.x][state] > x.dis + r.dis){
+                        dp[r.x][state] = x.dis + r.dis;
+                        pq.add(new xy(r.x, x.dis + r.dis, state));
                     }
                 }
+                
                 
             }
         }
         
-        
         return 0;
     }
+    
     static class Road{
         int x, dis;
         Road(int a, int b){
@@ -73,10 +76,9 @@ class Solution {
         }
     }
     static class xy{
-        int x, dis, visit;
+        int x, dis, state;
         xy(int a, int b, int c){
-            x = a; dis = b; visit = c;
+            x = a; dis = b; state = c;
         }
-        
     }
 }
