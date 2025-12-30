@@ -1,50 +1,40 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.*;
+import java.io.*;
 
 public class Main {
-
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st;
 
-        int n = Integer.parseInt(br.readLine());
+        st = new StringTokenizer(br.readLine());
+        int n = Integer.parseInt(st.nextToken());
         int[] v = new int[n];
-
-        ArrayList<Integer>[] dp = new ArrayList[n];
+        int[] dp = new int[n];
         st = new StringTokenizer(br.readLine());
         for(int i = 0; i < n; i++){
             v[i] = Integer.parseInt(st.nextToken());
-            dp[i] = new ArrayList<>();
+            dp[i] = 1;
         }
 
-        dp[0].add(v[0]);
-        int max_cur =  0;
 
+        int len = 1;
         for(int i = 1; i < n; i++){
-            int len = 0;
-            int cur = i;
             for(int j = 0; j < i; j++){
-                if(v[i] > v[j] && dp[j].size()  > len){
-                    len = dp[j].size();
-                    cur = j;
-                }
+                if(v[i] > v[j]) dp[i] = Math.max(dp[j] + 1, dp[i]);
             }
-            for(int j = 0; j < len; j++)
-                dp[i].add(dp[cur].get(j));
-
-            dp[i].add(v[i]);
-
-            if(dp[max_cur].size() < dp[i].size())
-                max_cur = i;
+            len = Math.max(len, dp[i]);
         }
+        System.out.println(len);
 
-        System.out.println(dp[max_cur].size());
-        for(int i = 0; i < dp[max_cur].size(); i++)
-            System.out.print(dp[max_cur].get(i) + " ");
-
+        int[] an = new int[len];
+        for(int i = n - 1; i >= 0; i--){
+            if(dp[i] == len){
+                len--;
+                an[len] = v[i];
+            }
+        }
+        for(int i = 0; i < an.length; i++)
+            System.out.print(an[i] + " ");
 
     }
-
 }
