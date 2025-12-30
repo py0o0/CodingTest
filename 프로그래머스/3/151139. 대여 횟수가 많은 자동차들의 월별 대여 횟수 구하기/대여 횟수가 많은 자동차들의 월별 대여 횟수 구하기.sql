@@ -1,12 +1,17 @@
-SELECT MONTH(START_DATE) AS MONTH, CAR_ID, COUNT(*) AS RECORDS
-FROM CAR_RENTAL_COMPANY_RENTAL_HISTORY
-WHERE YEAR(START_DATE) = 2022 AND (MONTH(START_DATE) = 8 OR MONTH(START_DATE) = 9 OR MONTH(START_DATE) = 10)
-               AND CAR_ID IN(SELECT CAR_ID
-               FROM CAR_RENTAL_COMPANY_RENTAL_HISTORY
-               WHERE YEAR(START_DATE) = 2022 AND (MONTH(START_DATE) = 8 OR MONTH(START_DATE) = 9 OR MONTH(START_DATE) = 10)
-               GROUP BY CAR_ID
-                HAVING COUNT(*) > 4
-               )
-GROUP BY MONTH(START_DATE),CAR_ID
-HAVING COUNT(*) > 0
-ORDER BY MONTH(START_DATE) ASC, CAR_ID DESC
+-- 코드를 입력하세요
+select month(START_DATE) as `MONTH`,
+    CAR_ID,
+    count(*) as RECORDS
+from CAR_RENTAL_COMPANY_RENTAL_HISTORY
+where month(START_DATE) between 8 and 10
+    and CAR_ID in 
+        (
+        select CAR_ID
+        from CAR_RENTAL_COMPANY_RENTAL_HISTORY
+        where month(START_DATE) between 8 and 10
+        group by CAR_ID
+        having count(*) >= 5
+        )
+group by month(START_DATE), CAR_ID
+having count(*) >= 1
+order by month(START_DATE), CAR_ID desc
