@@ -1,8 +1,14 @@
-SELECT FOOD_TYPE, REST_ID, REST_NAME, FAVORITES
-FROM REST_INFO
-WHERE FAVORITES IN (SELECT MAX(FAVORITES)
-                   FROM REST_INFO
-                   GROUP BY FOOD_TYPE)
-GROUP BY FOOD_TYPE
-ORDER BY FOOD_TYPE DESC
-
+-- 코드를 입력하세요
+select FOOD_TYPE,
+    REST_ID,
+    REST_NAME,
+    FAVORITES
+from REST_INFO
+where FAVORITES in 
+    (
+        select max(FAVORITES)
+        from REST_INFO
+        group by FOOD_TYPE
+    )
+group by FOOD_TYPE
+order by FOOD_TYPE desc
