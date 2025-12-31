@@ -1,8 +1,11 @@
-SELECT A.PRODUCT_ID, A.PRODUCT_NAME, SUM(AMOUNT * A.PRICE) AS TOTAL_SALES
-FROM FOOD_PRODUCT AS A LEFT JOIN
-FOOD_ORDER AS B ON
-A.PRODUCT_ID = B.PRODUCT_ID
-WHERE YEAR(B.PRODUCE_DATE) = 2022 AND MONTH(B.PRODUCE_DATE) = 5
-GROUP BY A.PRODUCT_ID
-ORDER BY 3 DESC, 1 ASC
-#FOOD_PRODUCT와 FOOD_ORDER 테이블에서 생산일자가 2022년 5월인 식품들의 식품 ID, 식품 이름, 총매출을 조회하는 SQL문을 작성해주세요. 이때 결과는 총매출을 기준으로 내림차순 정렬해주시고 총매출이 같다면 식품 ID를 기준으로 오름차순 정렬해주세요.
+-- 코드를 입력하세요
+select a.PRODUCT_ID,
+    PRODUCT_NAME,
+    sum(AMOUNT) * PRICE as TOTAL_SALES
+from FOOD_PRODUCT a
+    join FOOD_ORDER b
+    on a.PRODUCT_ID = b.PRODUCT_ID
+where year(PRODUCE_DATE) = 2022
+    and month(PRODUCE_DATE) = 5
+group by a.PRODUCT_ID
+order by TOTAL_SALES desc, a.PRODUCT_ID
