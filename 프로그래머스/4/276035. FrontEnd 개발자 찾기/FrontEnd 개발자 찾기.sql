@@ -8,5 +8,5 @@ where SKILL_CODE & (
     select sum(CODE)
     from SKILLCODES
     where CATEGORY like "Front End"
-) > 0
+    ) > 0
 order by ID
