@@ -5,7 +5,8 @@ select a.ANIMAL_ID,
 from ANIMAL_INS a
     join ANIMAL_OUTS b
     on a.ANIMAL_ID = b.ANIMAL_ID
-where a.SEX_UPON_INTAKE like "Intact%"
-    and (b.SEX_UPON_OUTCOME LIKE 'Spayed%'
-        or b.SEX_UPON_OUTCOME LIKE 'Neutered%')
+    and a.SEX_UPON_INTAKE like "Intact%"
+    and (b.SEX_UPON_OUTCOME like "Spayed%"
+        or b.SEX_UPON_OUTCOME like "Neutered%"
+    )
 order by a.ANIMAL_ID
