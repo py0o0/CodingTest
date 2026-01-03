@@ -6,6 +6,6 @@ select year(SALES_DATE) as YEAR,
 from USER_INFO a
     join ONLINE_SALE b
     on a.USER_ID = b.USER_ID
-where GENDER is not null
+    and a.GENDER is not null
 group by YEAR, MONTH, GENDER
 order by YEAR, MONTH, GENDER
