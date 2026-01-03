@@ -10,7 +10,7 @@ from APPOINTMENT a
     on a.PT_NO = b.PT_NO
     join DOCTOR c
     on a.MDDR_ID = c.DR_ID
-where APNT_YMD like "2022-04-13%"
+where a.APNT_YMD like "2022-04-13%"
     and a.MCDP_CD = "CS"
-    and APNT_CNCL_YN = "N"
+    and APNT_CNCL_YN = 'N'
 order by APNT_YMD
