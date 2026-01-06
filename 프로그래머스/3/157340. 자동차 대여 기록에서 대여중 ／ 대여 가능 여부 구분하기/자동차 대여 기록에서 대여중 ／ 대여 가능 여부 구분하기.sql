@@ -1,6 +1,6 @@
 -- 코드를 입력하세요
 select CAR_ID,
-    case 
+    case
         when CAR_ID in (
             select CAR_ID
             from CAR_RENTAL_COMPANY_RENTAL_HISTORY
@@ -10,4 +10,4 @@ select CAR_ID,
     end as AVAILABILITY
 from CAR_RENTAL_COMPANY_RENTAL_HISTORY
 group by CAR_ID
-order by CAR_ID desc
+order by 1 desc
