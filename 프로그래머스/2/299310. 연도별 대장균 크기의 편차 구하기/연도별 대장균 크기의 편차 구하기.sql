@@ -1,13 +1,13 @@
 -- 코드를 작성해주세요
-select year(a.DIFFERENTIATION_DATE) as YEAR,
-    b.MAX_SIZE - a.SIZE_OF_COLONY as YEAR_DEV,
-    a.ID
-from ECOLI_DATA a  
+select year(DIFFERENTIATION_DATE) as YEAR,
+    MAX_SIZE - SIZE_OF_COLONY as YEAR_DEV,
+    ID
+from ECOLI_DATA a
     join (
-        select year(DIFFERENTIATION_DATE) as YEAR,
-            max(SIZE_OF_COLONY) as MAX_SIZE
+        select max(SIZE_OF_COLONY) as MAX_SIZE,
+            year(DIFFERENTIATION_DATE) as YEAR
         from ECOLI_DATA
         group by YEAR
     ) b
-    on year(a.DIFFERENTIATION_DATE) = b.YEAR
-order by YEAR, YEAR_DEV
+    on year(DIFFERENTIATION_DATE) = b.YEAR
+order by 1, 2
