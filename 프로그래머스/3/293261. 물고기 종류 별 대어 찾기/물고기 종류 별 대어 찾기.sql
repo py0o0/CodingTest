@@ -5,10 +5,9 @@ select ID,
 from FISH_INFO a
     join FISH_NAME_INFO b
     on a.FISH_TYPE = b.FISH_TYPE
-where (a.FISH_TYPE, LENGTH) in (
-    select FISH_TYPE,
-        max(LENGTH) as LENGTH
+where (LENGTH, a.FISH_TYPE) in (
+    select max(LENGTH) as LENGTH, FISH_TYPE
     from FISH_INFO
     group by FISH_TYPE
 )
-order by ID
+order by 1
