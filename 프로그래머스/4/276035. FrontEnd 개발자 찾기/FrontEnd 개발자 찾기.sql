@@ -5,8 +5,8 @@ select ID,
     LAST_NAME
 from DEVELOPERS
 where SKILL_CODE & (
-    select sum(CODE)
+    select sum(code)
     from SKILLCODES
-    where CATEGORY like "Front End"
-    ) > 0
-order by ID
+    where CATEGORY like "Front%"
+) > 0
+order by 1
