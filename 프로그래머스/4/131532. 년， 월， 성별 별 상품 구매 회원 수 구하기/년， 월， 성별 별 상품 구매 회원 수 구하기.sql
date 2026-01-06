@@ -7,5 +7,5 @@ from USER_INFO a
     join ONLINE_SALE b
     on a.USER_ID = b.USER_ID
     and a.GENDER is not null
-group by YEAR, MONTH, GENDER
-order by YEAR, MONTH, GENDER
+group by 1, 2, 3
+order by 1, 2, 3
