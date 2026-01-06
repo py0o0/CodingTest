@@ -6,7 +6,7 @@ from ANIMAL_INS a
     join ANIMAL_OUTS b
     on a.ANIMAL_ID = b.ANIMAL_ID
     and a.SEX_UPON_INTAKE like "Intact%"
-    and (b.SEX_UPON_OUTCOME like "Spayed%"
-        or b.SEX_UPON_OUTCOME like "Neutered%"
+    and (b.SEX_UPON_OUTCOME like "Neutered%"
+        or b.SEX_UPON_OUTCOME like "Spayed%"
     )
-order by a.ANIMAL_ID
+order by 1
