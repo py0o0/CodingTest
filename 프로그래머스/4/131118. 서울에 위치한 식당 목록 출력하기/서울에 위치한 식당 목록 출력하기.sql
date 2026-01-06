@@ -14,4 +14,4 @@ group by a.REST_ID,
     FOOD_TYPE,
     FAVORITES,
     ADDRESS
-order by SCORE desc, FAVORITES desc 
+order by SCORE desc, FAVORITES desc
