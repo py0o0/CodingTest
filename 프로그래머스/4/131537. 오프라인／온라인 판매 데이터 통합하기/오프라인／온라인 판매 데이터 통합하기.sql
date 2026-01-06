@@ -9,7 +9,6 @@ from (
         SALES_AMOUNT,
         SALES_DATE
     from ONLINE_SALE
-    where year(SALES_DATE) = 2022 and month(SALES_DATE) = 3
     
     union
     
@@ -18,6 +17,6 @@ from (
         SALES_AMOUNT,
         SALES_DATE
     from OFFLINE_SALE
-    where year(SALES_DATE) = 2022 and month(SALES_DATE) = 3
 ) a
-order by SALES_DATE, PRODUCT_ID, USER_ID
+where year(SALES_DATE) = 2022 and month(SALES_DATE) = 3
+order by 1, 2, 3
