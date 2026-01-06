@@ -7,5 +7,5 @@ where ITEM_ID not in(
     select PARENT_ITEM_ID
     from ITEM_TREE
     where PARENT_ITEM_ID is not null
-    )
-order by ITEM_ID desc
+)
+order by 1 desc
