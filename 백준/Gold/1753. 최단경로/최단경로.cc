@@ -1,14 +1,8 @@
 #include <iostream>
-#include <vector>
 #include <climits>
+#include <vector>
 #include <queue>
 using namespace std;
-
-
-struct Road {
-	int next;
-	int t;	
-};
 
 struct xy {
 	int now;
@@ -20,14 +14,17 @@ struct cmp {
 	}
 };
 
+struct Road {
+	int next;
+	int t;
+};
+
 vector<Road> roads[20001];
 int dp[20001];
-
-void dijkstra(int start,int n) {
-	dp[start] = 0;
-	priority_queue<xy, vector<xy>,cmp> pq;
-	pq.push({ start, 0 });
-
+void dijkstra(int n) {
+	dp[n] = 0;
+	priority_queue<xy, vector<xy>, cmp> pq;
+	pq.push({ n,0 });
 	while (pq.size() != 0) {
 		xy x = pq.top(); pq.pop();
 		for (auto road : roads[x.now]) {
@@ -37,27 +34,24 @@ void dijkstra(int start,int n) {
 			}
 		}
 	}
-
 }
 
-int main(void) {
-
-	int n, m,start;
-	cin >> n >> m >> start;
-	for (int i = 0; i < m; i++) {
-		int s, e, t;
-		cin >> s >> e >> t;
-		roads[s].push_back({ e,t });
-	}
-
-	for (int i = 1; i <= n; i++)
+int main() {
+	int v, e, target;
+	cin >> v >> e >> target;
+	for (int i = 1; i <= v; i++)
 		dp[i] = INT_MAX;
+	while (e--) {
+		int a, b, c;
+		cin >> a >> b >> c;
+		roads[a].push_back({ b,c });
+	}
+	dijkstra(target);
 
-	dijkstra(start,n);
-
-	for (int i = 1; i <= n; i++) {
+	for (int i = 1; i <= v; i++) {
 		if (dp[i] == INT_MAX) cout << "INF\n";
 		else cout << dp[i] << "\n";
 	}
+	
 	return 0;
 }
