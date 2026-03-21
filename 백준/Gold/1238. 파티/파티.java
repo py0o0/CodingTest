@@ -1,105 +1,68 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.*;
+import java.io.*;
 
 public class Main {
 
-    static ArrayList<xy>[] road;
-    static int[] visit;
-    static int[] dist;
+    static ArrayList<Road>[] roads;
+    static int[][] dp;
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st;
 
         st = new StringTokenizer(br.readLine());
-
         int n = Integer.parseInt(st.nextToken());
         int m = Integer.parseInt(st.nextToken());
-        int end = Integer.parseInt(st.nextToken());
+        int x = Integer.parseInt(st.nextToken());
 
+        roads = new ArrayList[n+1];
+        dp = new int[n+1][n+1];
 
-        road = new ArrayList[n + 1];
-        dist = new int[n + 1];
+        for(int i = 0; i <= n; i++){
+            roads[i] = new ArrayList<>();
+            for(int j = 0; j <= n; j++){
+                dp[i][j] = Integer.MAX_VALUE;
+            }
+        }
 
-        for(int i = 0; i <= n; i++)
-            road[i] = new ArrayList<>();
-
-        for (int i = 0; i< m; i++){
+        for(int i = 0; i < m; i++){
             st = new StringTokenizer(br.readLine());
-
-            int s = Integer.parseInt(st.nextToken());
-            int e = Integer.parseInt(st.nextToken());
+            int a = Integer.parseInt(st.nextToken());
+            int b = Integer.parseInt(st.nextToken());
             int t = Integer.parseInt(st.nextToken());
+            roads[a].add(new Road(b, t));
+        }
 
-            road[s].add(new xy(e, t));
+        for(int i = 1; i <= n; i++){
+            dijkstra(i);
         }
 
         int max = 0;
-
-        visit = new int[n + 1];
-        dijkstra(end);
-        int[] back = new int[n + 1];
-        for(int i = 1; i <= n; i++)
-            back[i] = dist[i];
-
-
-        for(int i= 1; i<=n;i++){
-            visit = new int[n + 1];
-            dijkstra(i);
-            int go = dist[end];
-
-            max = Math.max(max, go + back[i] );
+        for(int i = 1; i <= n; i++){
+            if(i == x) continue;
+            max = Math.max(dp[i][x] + dp[x][i], max);
         }
-
-
         System.out.println(max);
-
+    }
+    static class Road{
+        int next, t;
+        public Road(int next, int t) {
+            this.next = next;
+            this.t = t;
+        }
     }
 
-    static void dijkstra(int start){
-        Arrays.fill(dist, Integer.MAX_VALUE);
-
-        dist[start] = 0;
-        PriorityQueue<dij> pq = new PriorityQueue<>(Comparator.comparingInt(o -> o.t));
-        pq.add(new dij(start,0));
-
+    static void dijkstra(int i){
+        dp[i][i] = 0;
+        PriorityQueue<Road> pq = new PriorityQueue<>((a, b) -> a.t - b.t);
+        pq.add(new Road(i, 0));
         while(!pq.isEmpty()){
-            dij x = pq.poll();
-            if(visit[x.x] == 1) continue;
-            visit[x.x] = 1;
-
-            for(xy road : road[x.x]){
-                if(dist[road.e] > dist[x.x] + road.t){
-                    dist[road.e] = dist[x.x] + road.t;
-                    pq.add(new dij(road.e,dist[road.e]));
+            Road x = pq.poll();
+            for(Road road : roads[x.next]){
+                if(dp[i][road.next] > dp[i][x.next] + road.t){
+                    dp[i][road.next] = dp[i][x.next] + road.t;
+                    pq.add(new Road(road.next, dp[i][x.next] + x.t));
                 }
             }
-
-        }
-
-
-
-    }
-
-
-    public static class xy{
-        int e;
-        int t;
-        public xy(int e, int t){
-            this.e = e;
-            this.t = t;
         }
     }
-    public static class dij{
-        int x;
-        int t;
-        public dij(int x, int t){
-            this.x = x;
-            this.t = t;
-        }
-    }
-
-
-
 }
