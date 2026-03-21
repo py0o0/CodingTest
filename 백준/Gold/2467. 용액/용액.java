@@ -1,42 +1,39 @@
 import java.util.*;
 import java.io.*;
 
-    class Main {
+public class Main {
 
-        public static void main(String[] args) throws IOException{
-            BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-            StringTokenizer st;
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st;
 
-            st = new StringTokenizer(br.readLine());
-            int n = Integer.parseInt(st.nextToken());
+        st = new StringTokenizer(br.readLine());
+        int n = Integer.parseInt(st.nextToken());
+        int[] v = new int[n];
+        st = new StringTokenizer(br.readLine());
+        for (int i = 0; i < n; i++)
+            v[i] = Integer.parseInt(st.nextToken());
+        Arrays.sort(v);
 
-            long[] arr = new long[n];
-            st = new StringTokenizer(br.readLine());
-            for(int i = 0; i<n;i++)
-                arr[i] = Long.parseLong(st.nextToken());
-
-            long x = arr[0];
-            long y = arr[arr.length-1];
-            long min = abs(x + y);
-
-            int start = 0; int end = arr.length-1;
-            while(start < end){
-                long val = arr[start] + arr[end];
-
-                if(abs(val) < min){
-                    min = abs(val);
-                    x = arr[start];
-                    y = arr[end];
-                }
-                if(val < 0) start++;
-                else end--;
+        int min = Integer.MAX_VALUE;
+        int start = 0;
+        int end = n - 1;
+        int a = start;
+        int b = end;
+        while (start < end) {
+            int val = Math.abs(v[start] + v[end]);
+            if (val < min) {
+                a = start;
+                b = end;
+                min = val;
             }
 
-            System.out.println(x + " " + y);
+            if (Math.abs(v[start]) > Math.abs(v[end]))
+                start++;
+            else
+                end--;
         }
 
-        public static long abs(long n){
-            return n > 0 ? n : -n;
-        }
-
+        System.out.println(v[a] + " " + v[b]);
     }
+}
