@@ -1,37 +1,36 @@
 import java.util.*;
 import java.io.*;
 
-public class Main{
+public class Main {
 
-
-    public static void main(String[] args) throws IOException{
+    public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st;
 
-        String str = br.readLine();
-        String boom = br.readLine();
+        String s1 = br.readLine();
+        String s2 = br.readLine();
 
         Stack<Character> stk = new Stack<>();
-        for(int i = 0; i < str.length(); i++){
-            stk.push(str.charAt(i));
-            if(stk.size() >= boom.length() && stk.peek() == boom.charAt(boom.length()-1)){
-                int flag = 0;
-                for(int j = 1; j <= boom.length(); j++){
-                    if(stk.get(stk.size() - j) != boom.charAt(boom.length() - j)){
-                        flag = 1; break;
+        for (int i = 0; i < s1.length(); i++) {
+            stk.push(s1.charAt(i));
+            if (stk.peek() == s2.charAt(s2.length() - 1) && stk.size() >= s2.length()) {
+                boolean flag = true;
+                for (int j = 1; j <= s2.length(); j++) {
+                    if (stk.get(stk.size() - j) != s2.charAt(s2.length() - j)) {
+                        flag = false;
+                        break;
                     }
                 }
-                if(flag == 0){
-                    for(int j = 0; j < boom.length(); j++) stk.pop();
+                if (flag) {
+                    for (int j = 1; j <= s2.length(); j++)
+                        stk.pop();
                 }
-
             }
         }
-        StringBuilder an = new StringBuilder();
-        while(!stk.isEmpty()){
-            an.append(stk.pop());
-        }
-        if(an.toString().isEmpty()) System.out.println("FRULA");
-        else System.out.println(an.reverse());
+        StringBuilder sb = new StringBuilder();
+        for(char x : stk) sb.append(x);
+        if (sb.length() == 0) sb.append("FRULA");
+        System.out.println(sb);
     }
+
 }
