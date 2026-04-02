@@ -1,94 +1,79 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.*;
+import java.io.*;
 
 public class Main {
 
-
-
-    static int[] dx = {1,-1,0,0,0,0};
-    static int[] dy = {0,0,1,-1,0,0};
-    static int[] dz = {0,0,0, 0, 1,-1};
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st;
 
+        int n, m, k;
         st = new StringTokenizer(br.readLine());
-        int n = Integer.parseInt(st.nextToken());
-        int m = Integer.parseInt(st.nextToken());
-        int h = Integer.parseInt(st.nextToken());
-
-        int[][][] map = new int[h][m][n];
+        n = Integer.parseInt(st.nextToken());
+        m = Integer.parseInt(st.nextToken());
+        k = Integer.parseInt(st.nextToken());
 
         Queue<xy> q = new LinkedList<>();
-        for(int i = 0; i< h; i++){
+        int[][][] map = new int[n][m][k];
+        int[][][] visit = new int[n][m][k];
+
+        int[] dx = {1, -1, 0, 0, 0, 0};
+        int[] dy = {0, 0, 1, -1, 0, 0};
+        int[] dz = {0, 0, 0, 0, 1, -1};
+        for(int i = 0; i < k; i++){
             for(int j = 0; j < m; j++){
                 st = new StringTokenizer(br.readLine());
-                for(int k = 0; k < n; k++){
-                    map[i][j][k] = Integer.parseInt(st.nextToken());
-                    if(map[i][j][k] == 1)
-                        q.add(new xy(i,j,k));
-                }
-            }
-        }
-
-        int flag = 0;
-        int cnt = 0;
-        while(flag == 0){
-
-            Queue<xy> temp = new LinkedList<>();
-            flag = 1;
-            while(!q.isEmpty()){
-                xy x = q.poll();
-                for(int k = 0; k < 6; k++){
-                    int nx = x.x + dx[k];
-                    int ny = x.y + dy[k];
-                    int nz = x.z + dz[k];
-
-                    if(nx < 0 || nx >= m || ny < 0 || ny >= n || nz < 0 || nz >= h) continue;
-
-                    if(map[nz][nx][ny] == 0){
-                        temp.add(new xy(nz,nx,ny));
-                        map[nz][nx][ny] = 1;
-                        flag = 0;
+                for(int l = 0; l < n; l++){
+                    map[l][j][i] = Integer.parseInt(st.nextToken());
+                    if(map[l][j][i] == 1){
+                        visit[l][j][i] = 1;
+                        q.add(new xy(l, j, i));
                     }
-
                 }
             }
-
-            if(flag == 1) break;
-
-            cnt++;
-            q = temp;
-
         }
 
-        for(int i = 0; i< h; i++){
+        int an = 0;
+        while(!q.isEmpty()){
+            int size = q.size();
+            while(size-- > 0){
+                xy x = q.poll();
+                for(int i = 0; i < 6; i++){
+                    int nx = x.x + dx[i];
+                    int ny = x.y + dy[i];
+                    int nz = x.z + dz[i];
+                    if(nx < 0 || ny < 0 || nz < 0 || nx >= n || ny >= m || nz >= k) continue;
+                    if(visit[nx][ny][nz] == 1) continue;
+                    if(map[nx][ny][nz] == 0){
+                        visit[nx][ny][nz] = 1;
+                        map[nx][ny][nz] = 1;
+                        q.add(new xy(nx, ny, nz));
+                    }
+                }
+            }
+            an++;
+        }
+
+        for(int i = 0; i < k; i++){
             for(int j = 0; j < m; j++){
-                for(int k = 0; k < n; k++){
-                    if(map[i][j][k] == 0)
-                        cnt = -1;
+                for(int l = 0; l < n; l++){
+                    if(map[l][j][i] == 0){
+                        System.out.println(-1);
+                        return;
+                    }
                 }
             }
         }
-
-
-        System.out.println(cnt);
-
-
+        System.out.println(an - 1);
 
     }
-    static public class xy{
-        int x;
-        int y;
-        int z;
-        public xy(int z, int x, int y){
+    static class xy{
+        int x, y, z;
+        public xy(int x, int y, int z) {
             this.x = x;
             this.y = y;
             this.z = z;
         }
     }
-
 
 }
