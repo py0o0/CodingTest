@@ -1,51 +1,38 @@
 import java.util.*;
 import java.io.*;
 
-public class Main{
-
+public class Main {
+    
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st;
 
         int n = Integer.parseInt(br.readLine());
-        long[] v = new long[n];
+        int[] v = new int[n];
+
         st = new StringTokenizer(br.readLine());
-        for(int i = 0; i < n; i++) v[i] = Long.parseLong(st.nextToken());
+        for (int i = 0; i < n; i++) v[i] = Integer.parseInt(st.nextToken());
+
         Arrays.sort(v);
 
-        long[] an = new long[3];
-        an[0] = v[0]; an[1] = v[1]; an[2] = v[2];
-
-        long dis = Math.abs(an[0] + an[1] + an[2]);
-
-        for(int i = 1; i < n-1; i++){
-            int start = 0;
-            int end = n - 1;
+        long min = Long.MAX_VALUE;
+        int a  = 0, b = 0, c = 0;
+        for(int i = 0; i < n - 2; i++){
+            int start = i + 1; int end = n - 1;
 
             while(start < end){
-                if(start == i){
-                    start++; continue;
-                }
-                if(end == i){
-                    end--; continue;
-                }
-
-                long x = v[start] + v[end] + v[i];
-                if(dis > Math.abs(x)){
-                    dis = Math.abs(x);
-                    an[0] = v[start]; an[1] = v[end]; an[2] = v[i];
+                long val = (long)v[i] + v[start] + v[end];
+                if(Math.abs(val) < min){
+                    min = Math.abs(val);
+                    a = v[i]; b = v[start]; c = v[end];
                 }
 
-                if(x < 0)
-                    start++;
-                else
-                    end--;
+                if(val < 0) start++;
+                else end--;
             }
         }
-        Arrays.sort(an);
-        for(int i = 0; i < 3; i++)
-            System.out.print(an[i] + " ");
-
-
+        System.out.println(a + " " + b + " " + c);
+        
     }
+
 }
