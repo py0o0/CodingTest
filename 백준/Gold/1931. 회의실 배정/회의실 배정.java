@@ -1,37 +1,44 @@
-import java.io.*;
 import java.util.*;
+import java.io.*;
 
-class Main{
-
+public class Main {
+    
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st;
 
-        st = new StringTokenizer(br.readLine());
+        int n = Integer.parseInt(br.readLine());
 
-        int n = Integer.parseInt(st.nextToken());
         xy[] v = new xy[n];
-        for (int i = 0; i < n; i++) {
+        for(int i = 0; i < n; i++){
             st = new StringTokenizer(br.readLine());
-            v[i] = new xy();
-            v[i].s = Integer.parseInt(st.nextToken());
-            v[i].e = Integer.parseInt(st.nextToken());
+            int s = Integer.parseInt(st.nextToken());
+            int e = Integer.parseInt(st.nextToken());
+            v[i] = new xy(s, e);
         }
-        Arrays.sort(v,(a,b)->{
+
+        Arrays.sort(v, (a, b) -> {
             if(a.e == b.e) return a.s - b.s;
             return a.e - b.e;
         });
-        Stack<xy> stk =  new Stack<>();
+
+        Stack<xy> stk = new Stack<>();
         stk.push(v[0]);
 
         for(int i = 1; i < n; i++){
-            if(stk.peek().e <= v[i].s) stk.push(v[i]);
+            if(stk.peek().e <= v[i].s){
+                stk.push(v[i]);
+            }
         }
         System.out.println(stk.size());
+        
     }
     static class xy{
-        int s,e;
+        int s, e;
+        public xy(int s, int e){
+            this.s = s;
+            this.e = e;
+        }
     }
-
 
 }
