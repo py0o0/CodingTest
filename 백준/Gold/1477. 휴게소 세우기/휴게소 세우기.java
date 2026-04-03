@@ -1,8 +1,8 @@
-import java.io.*;
 import java.util.*;
+import java.io.*;
 
-class Main{
-
+public class Main {
+    
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st;
@@ -10,29 +10,38 @@ class Main{
         st = new StringTokenizer(br.readLine());
         int n = Integer.parseInt(st.nextToken());
         int m = Integer.parseInt(st.nextToken());
-        int l = Integer.parseInt(st.nextToken());
+        int k = Integer.parseInt(st.nextToken());
 
-        int[] v = new int[n + 2];
+        int[] v = new int[n + 1];
         st = new StringTokenizer(br.readLine());
-        for (int i = 1; i <= n; i++) v[i] = Integer.parseInt(st.nextToken());
-        v[0] = 0; v[n+1] = l;
-
+        for (int i = 0; i < n; i++) v[i] = Integer.parseInt(st.nextToken());
+        v[n] = k;
         Arrays.sort(v);
+
+
         int start = 1;
-        int end = l;
+        int end = k;
+
         while (start < end) {
             int mid = (start + end) / 2;
-
             int cnt = 0;
-            for (int i = 1; i < n+2; i++) {
-                cnt += (v[i]-v[i-1] - 1)/mid;
 
+            int cur = 0;
+            for(int i = 0; i <= n; i++){
+                if(v[i] - cur > mid){
+                    while(v[i] - cur > mid){
+                        cur += mid; cnt++;
+                    }
+                }
+                cur = v[i];
             }
-            if(cnt <= m)
-                end = mid ;
-            else start = mid + 1;
+
+            if(cnt > m) start = mid + 1;
+            else end = mid;
         }
         System.out.println(start);
+
     }
+
 
 }
